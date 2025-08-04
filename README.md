@@ -1,4 +1,4 @@
-# Ask My Data
+# Ask My Data (parquet poet)
 
 Ask My Data is a Retrieval-Augmented Generation (RAG) system that allows users to query structured datasets using natural language. It combines data cleaning, embedding, vector indexing, and large language model prompting to generate relevant, context-aware responses.
 
