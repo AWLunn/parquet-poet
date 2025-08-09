@@ -11,7 +11,7 @@ summaries = []
 metadata = []
 
 # Domain aggregates
-df_domain = pd.read_parquet("domain_aggregates.parquet")
+df_domain = pd.read_parquet("../data/domain_aggregates.parquet")
 
 # Create semantic handles
 def summarize_domain(row):
@@ -36,7 +36,7 @@ metadata.extend([
 
 
 # City aggregates
-df_city = pd.read_parquet("city_aggregates.parquet")
+df_city = pd.read_parquet("../data/city_aggregates.parquet")
 
 # Create semantic handles
 def summarize_city(row):
@@ -59,7 +59,7 @@ metadata.extend([
 
 
 # Daily total
-df_daily = pd.read_parquet("daily_totals.parquet")
+df_daily = pd.read_parquet("../data/daily_totals.parquet")
 
 # Create semantic handles
 def summarize_daily(row):
@@ -91,10 +91,10 @@ index = faiss.IndexFlatL2(embeddings.shape[1])
 index.add(embeddings)
 
 # Save to disk
-faiss.write_index(index, "summary_index.faiss")
+faiss.write_index(index, "../data/summary_index.faiss")
 
 # Store metadata in JSON
-with open("summary_metadata.json", "w") as f:
+with open("../data/summary_metadata.json", "w") as f:
     json.dump(metadata, f, indent=2)
 
 print("FAISS index and metadata saved.")

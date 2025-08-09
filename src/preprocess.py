@@ -43,12 +43,12 @@ def aggregate_data(df):
 
 
 def save_outputs(df_domain, df_city, df_daily):
-    df_domain.to_parquet("domain_aggregates.parquet")
-    df_city.to_parquet("city_aggregates.parquet")
-    df_daily.to_parquet("daily_totals.parquet")
+    df_domain.to_parquet("../data/domain_aggregates.parquet")
+    df_city.to_parquet("../data/city_aggregates.parquet")
+    df_daily.to_parquet("../data/daily_totals.parquet")
 
 if __name__ == "__main__":
-    df = load_data("bankdataset.xlsx")
+    df = load_data("../data/raw/bankdataset.xlsx")
     df_cleaned = clean_data(df)
     df_domain, df_city, df_daily = aggregate_data(df_cleaned)
     print("💡 domain columns before save:", df_domain.columns.tolist())
