@@ -7,3 +7,8 @@ data/*.json
 
 .DS_Store
 ~.xlsx
+
+data/*.faiss
+data/*.json
+.DS_Store
+~.xlsx
