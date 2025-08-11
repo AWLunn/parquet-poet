@@ -21,13 +21,24 @@ def clean_data(df):
     return df
 
 def aggregate_data(df):
-    # Domain averages by date
-    df_domain = df.groupby(['date', 'domain']).agg({
+    df["year"] = df["date"].dt.year
+    df["month"] = df["date"].dt.month
+    df["month_name"] = df["date"].dt.month_name()
+    df["day"] = df["date"].dt.date
+
+    # Domain daily
+    df_domain = df.groupby(['date', 'domain', 'year', 'month', 'month_name']).agg({
         'value': 'mean',
         'transaction_count': 'mean'
     }).reset_index()
 
-    # Counts and averages by city
+    # Domain monthly
+    df_domain_monthly = df.groupby(['year', 'month', 'month_name', 'domain']).agg({
+        'value': 'mean',
+        'transaction_count': 'sum'
+    }).reset_index()
+
+    # City aggregates
     df_city = df.groupby('location').agg({
         'value': ['mean', 'sum']
     }).reset_index()
@@ -39,18 +50,18 @@ def aggregate_data(df):
         'transaction_count': 'sum'
     }).reset_index()
 
-    return df_domain, df_city, df_daily
+    return df_domain, df_domain_monthly, df_city, df_daily
 
-
-def save_outputs(df_domain, df_city, df_daily):
+def save_outputs(df_domain, df_domain_monthly, df_city, df_daily):
     df_domain.to_parquet("../data/domain_aggregates.parquet")
+    df_domain_monthly.to_parquet("../data/domain_monthly_aggregates.parquet")
     df_city.to_parquet("../data/city_aggregates.parquet")
     df_daily.to_parquet("../data/daily_totals.parquet")
 
 if __name__ == "__main__":
     df = load_data("../data/raw/bankdataset.xlsx")
     df_cleaned = clean_data(df)
-    df_domain, df_city, df_daily = aggregate_data(df_cleaned)
+    df_domain, df_domain_monthly, df_city, df_daily = aggregate_data(df_cleaned)
     print("💡 domain columns before save:", df_domain.columns.tolist())
-
-    save_outputs(df_domain, df_city, df_daily)
+    print("💡 domain monthly columns before save:", df_domain_monthly.columns.tolist())
+    save_outputs(df_domain, df_domain_monthly, df_city, df_daily)
