@@ -1,14 +1,18 @@
-./__pycache__.venv/
-venv/
+# MacOS system files
+.DS_Store
+
+# Python bytecode
 __pycache__/
+*.pyc
 
-data/*.faiss
-data/*.json
+# Virtual environments
+venv/
+env/
 
-.DS_Store
-~.xlsx
+# Temp Excel files
+~$*.xlsx
 
-data/*.faiss
-data/*.json
-.DS_Store
-~.xlsx
+# Data files
+*.parquet
+*.faiss
+*.json
